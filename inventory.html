@@ -1,0 +1,593 @@
+<!DOCTYPE HTML>
+
+<!-- Mirrored from enableds.com/products/sandglass/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:20:49 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta id="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui"/>
+    <meta id="apple-mobile-web-app-capable" content="yes"/>
+    <meta id="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/splash/splash-icon.png">
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen.png" 			media="screen and (max-device-width: 320px)" />  
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen%402x.png" 		media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" /> 
+    <link rel="apple-touch-startup-image" sizes="640x1096" href="images/splash/splash-screen%403x.png" />
+    <link rel="apple-touch-startup-image" sizes="1024x748" href="images/splash/splash-screen-ipad-landscape.html" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)" />
+    <link rel="apple-touch-startup-image" sizes="768x1004" href="images/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)" />
+    <link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png"   media="(device-width: 768px)	and (orientation: portrait)	and (-webkit-device-pixel-ratio: 2)"/>
+    <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png"   media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)"/>
+
+    <title>FORTE OIL POD - Inventory</title>
+
+    <link href="styles/style.css"     		 rel="stylesheet" type="text/css">
+    <link href="styles/framework.css" 		 rel="stylesheet" type="text/css">
+    <link href="styles/owl.carousel.css" 	 rel="stylesheet" type="text/css">
+    <link href="styles/owl.theme.css" 		 rel="stylesheet" type="text/css">
+    <link href="styles/swipebox.css"		 rel="stylesheet" type="text/css">
+    <link href="styles/colorbox.css"		 rel="stylesheet" type="text/css">
+    <link href="styles/font-awesome.css"	 rel="stylesheet" type="text/css">
+    <link href="styles/animate.css"			 rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" src="scripts/wow.js"></script>
+    <script type="text/javascript" src="scripts/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.swipebox.js"></script>
+    <script type="text/javascript" src="scripts/colorbox.js"></script>
+    <script type="text/javascript" src="scripts/snap.js"></script>
+    <script type="text/javascript" src="scripts/countdown.js"></script>
+    <script type="text/javascript" src="scripts/contact.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/framework.js"></script>
+    <script type="text/javascript" src="scripts/framework.launcher.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.verify-driver').click(function () {
+                var pass = $('#driverPass').val();
+                if (pass != null && pass != '') {
+                    var delqty = prompt('Quantity delivered:', '0');
+                    var dq = parseFloat(delqty);
+                    if (dq > 0) {
+                        window.location.href = 'status.html';
+                    }
+                }
+            });
+            $("#status").fadeOut(); // will first fade out the loading animation
+            $("#preloader").delay(500).fadeOut("slow");
+
+            
+           var userid = JSON.parse(window.localStorage.getItem('user'))[0].id;
+//           alert(userid);
+            //handle actions for inventory
+            $('#recordstock1').click(function () {
+                $('#status').fadeIn();
+                $('#preloader').fadeIn('slow');
+                var p1 = $('#product1').val();
+                var q1 = $('#qtyMeasured1').val();
+                var nh1 = $('#nh1').val();
+                var oh1 = $('#oh1').val();
+                var lh1 = $('#lh1').val();
+                var date1 = $('#date1').val();
+                var time1 = $('#time1').val();
+
+                //             var url = 'http://54.93.100.18/ppms/api';
+                var url = 'http://159.122.6.157:2080/forteppms/api';
+                var data1 = {
+                    'inventory': 'true',
+                    'p1': p1,
+                    'q1': q1,
+                    'nh1': nh1,
+                    'oh1': oh1, 
+                    'lh1': lh1, 
+                    'date1': date1, 
+                    'time1': time1,
+                    'tank':'1',
+                    userid:userid
+                };
+                $.post(url, data1, function (msg, stat, xhr) {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            alert('Inventory for Tank 1 was taken successfully!');
+//                            var m = JSON.parse($.trim(msg));
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        } else {
+                            alert('Inventory for Tank 1 failed!');
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        }
+                    } else {
+                        $("#status").fadeOut(); // will first fade out the loading animation
+                        $("#preloader").delay(500).fadeOut("slow");
+                    }
+                });
+
+            });
+            
+            
+            
+            
+            $('#recordstock2').click(function () {
+                $('#status').fadeIn();
+                $('#preloader').fadeIn('slow');
+                var p2 = $('#product2').val();
+                var q2 = $('#qtyMeasured2').val();
+                var nh2 = $('#nh2').val();
+                var oh2 = $('#oh2').val();
+                var lh2 = $('#lh2').val();
+                var date2 = $('#date2').val();
+                var time2 = $('#time2').val();
+
+                //             var url = 'http://54.93.100.18/ppms/api';
+                var url = 'http://159.122.6.157:2080/forteppms/api';
+                var data1 = {
+                    'inventory': 'true',
+                    'p2': p2,
+                    'q2': q2,
+                    'nh2': nh2,
+                    'oh2': oh2, 
+                    'lh2': lh2, 
+                    'date2': date2, 
+                    'time2': time2,
+                    'tank':'2',
+                    userid:userid
+                };
+                $.post(url, data1, function (msg, stat, xhr) {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            alert('Inventory for Tank 2 was taken successfully!');
+//                            var m = JSON.parse($.trim(msg));
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        } else {
+                            alert('Inventory for Tank 2 failed!');
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        }
+                    } else {
+                        $("#status").fadeOut(); // will first fade out the loading animation
+                        $("#preloader").delay(500).fadeOut("slow");
+                    }
+                });
+
+            });
+            
+            
+            $('#recordstock3').click(function () {
+                $('#status').fadeIn();
+                $('#preloader').fadeIn('slow');
+                var p2 = $('#product3').val();
+                var q2 = $('#qtyMeasured3').val();
+                var nh2 = $('#nh3').val();
+                var oh2 = $('#oh3').val();
+                var lh2 = $('#lh3').val();
+                var date2 = $('#date3').val();
+                var time2 = $('#time3').val();
+
+                //             var url = 'http://54.93.100.18/ppms/api';
+                var url = 'http://159.122.6.157:2080/forteppms/api';
+                var data1 = {
+                    'inventory': 'true',
+                    'p3': p2,
+                    'q3': q2,
+                    'nh3': nh2,
+                    'oh3': oh2, 
+                    'lh3': lh2, 
+                    'date3': date2, 
+                    'time3': time2,
+                    'tank':'3',
+                    userid:userid
+                };
+                $.post(url, data1, function (msg, stat, xhr) {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            alert('Inventory for Tank 3 was taken successfully!');
+//                            var m = JSON.parse($.trim(msg));
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        } else {
+                            alert('Inventory for Tank 3 failed!');
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        }
+                    } else {
+                        $("#status").fadeOut(); // will first fade out the loading animation
+                        $("#preloader").delay(500).fadeOut("slow");
+                    }
+                });
+
+            });
+
+        
+            $('#recordstock4').click(function () {
+                $('#status').fadeIn();
+                $('#preloader').fadeIn('slow');
+                var p2 = $('#product4').val();
+                var q2 = $('#qtyMeasured4').val();
+                var nh2 = $('#nh4').val();
+                var oh2 = $('#oh4').val();
+                var lh2 = $('#lh4').val();
+                var date2 = $('#date4').val();
+                var time2 = $('#time4').val();
+
+                //             var url = 'http://54.93.100.18/ppms/api';
+                var url = 'http://159.122.6.157:2080/forteppms/api';
+                var data1 = {
+                    'inventory': 'true',
+                    'p4': p2,
+                    'q4': q2,
+                    'nh4': nh2,
+                    'oh4': oh2, 
+                    'lh4': lh2, 
+                    'date4': date2, 
+                    'time4': time2,
+                    'tank':'4',
+                    userid:userid
+                };
+                $.post(url, data1, function (msg, stat, xhr) {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            alert('Inventory for Tank 4 was taken successfully!');
+//                            var m = JSON.parse($.trim(msg));
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        } else {
+                            alert('Inventory for Tank 4 failed!');
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        }
+                    } else {
+                        $("#status").fadeOut(); // will first fade out the loading animation
+                        $("#preloader").delay(500).fadeOut("slow");
+                    }
+                });
+
+            });
+            
+            $('#recordstock5').click(function () {
+                $('#status').fadeIn();
+                $('#preloader').fadeIn('slow');
+                var p2 = $('#product5').val();
+                var q2 = $('#qtyMeasured5').val();
+                var nh2 = $('#nh5').val();
+                var oh2 = $('#oh5').val();
+                var lh2 = $('#lh5').val();
+                var date2 = $('#date5').val();
+                var time2 = $('#time5').val();
+
+                //             var url = 'http://54.93.100.18/ppms/api';
+                var url = 'http://159.122.6.157:2080/forteppms/api';
+                var data1 = {
+                    'inventory': 'true',
+                    'p5': p2,
+                    'q5': q2,
+                    'nh5': nh2,
+                    'oh5': oh2, 
+                    'lh5': lh2, 
+                    'date5': date2, 
+                    'time5': time2,
+                    'tank':'5',
+                    userid:userid
+                };
+                $.post(url, data1, function (msg, stat, xhr) {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            alert('Inventory for Tank 5 was taken successfully!');
+//                            var m = JSON.parse($.trim(msg));
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        } else {
+                            alert('Inventory for Tank 5 failed!');
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        }
+                    } else {
+                        $("#status").fadeOut(); // will first fade out the loading animation
+                        $("#preloader").delay(500).fadeOut("slow");
+                    }
+                });
+
+            });
+            
+            $('#recordstock6').click(function () {
+                $('#status').fadeIn();
+                $('#preloader').fadeIn('slow');
+                var p2 = $('#product6').val();
+                var q2 = $('#qtyMeasured6').val();
+                var nh2 = $('#nh6').val();
+                var oh2 = $('#oh6').val();
+                var lh2 = $('#lh6').val();
+                var date2 = $('#date6').val();
+                var time2 = $('#time6').val();
+
+                //             var url = 'http://54.93.100.18/ppms/api';
+                var url = 'http://159.122.6.157:2080/forteppms/api';
+                var data1 = {
+                    'inventory': 'true',
+                    'p6': p2,
+                    'q6': q2,
+                    'nh6': nh2,
+                    'oh6': oh2, 
+                    'lh6': lh2, 
+                    'date6': date2, 
+                    'time6': time2,
+                    'tank':'6',
+                    userid:userid
+                };
+                $.post(url, data1, function (msg, stat, xhr) {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            alert('Inventory for Tank 6 was taken successfully!');
+//                            var m = JSON.parse($.trim(msg));
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        } else {
+                            alert('Inventory for Tank 6 failed!');
+                            $("#status").fadeOut(); // will first fade out the loading animation
+                            $("#preloader").delay(500).fadeOut("slow");
+                        }
+                    } else {
+                        $("#status").fadeOut(); // will first fade out the loading animation
+                        $("#preloader").delay(500).fadeOut("slow");
+                    }
+                });
+
+            });
+            
+            $('#inv_report').click(function(){
+                $('#status').fadeIn();
+                $('#preloader').fadeIn('slow');
+                setTimeout(function(){
+                    $("#status").fadeOut(); // will first fade out the loading animation
+                    $("#preloader").delay(500).fadeOut("slow");
+                    window.location.href = 'inventoryreport.html';
+                },2000);
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <div id="preloader">
+        <div id="status">
+            <p class="center-text">
+                Loading the content...
+                <em>Loading depends on your connection speed!</em>
+            </p>
+        </div>
+    </div>
+
+    <div class="header">
+        <a class="deploy-navigation going-up" href="#" id="homeDel"><!-- sfdeliveries.html -->
+            <i class="fa fa-navicon"></i>
+        </a>
+        <a class="deploy-navigation2" href="logout.html" id="logout">
+            <i class="fa fa-lock"></i>
+        </a>
+        <a class="header-logo" href="#"><img src="images/forte/logo.png" alt="img"></a>
+    </div>
+
+    <div class="header-clear"></div>
+    <div class="page-navigation full-bottom">
+        <div class="nav-clear"></div>
+        <div class="nav-item">
+            <a class="" href="sfdeliveries.html">
+                <i class="fa fa-truck"></i>
+                Pending Deliveries
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="history.html">
+                <i class="fa fa-car"></i>
+                Delivery History
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="inventory.html">
+                <i class="fa fa-table"></i>
+                Inventory
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="reportissue.html">
+                <i class="fa fa-eye"></i> Report Issue
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+
+    </div>
+
+
+<center>
+    <img src="images/forte/tank.png" alt="img" width="150" height="150">
+    <h1>Stock Inventory</h1></center>
+<div class="content">
+    <a href="#" id="inv_report" class="button button-green fetch-history"><i class="fa fa-table"></i>Inventory Report</a>
+    <div class="decoration"></div>
+
+    <div class="tabs">
+        <a href="#" class="tab-but tab-but-1 tab-active">Tank 1</a>
+        <a href="#" class="tab-but tab-but-2 ">Tank 2</a>
+        <a href="#" class="tab-but tab-but-3 ">Tank 3</a>
+        <a href="#" class="tab-but tab-but-4 ">Tank 4</a>
+        <a href="#" class="tab-but tab-but-5 ">Tank 5</a>
+        <a href="#" class="tab-but tab-but-6 ">Tank 6</a>
+    </div>
+    <div class="tab-content tab-content-1 tab-active">
+        <p id='comp1'>
+        <h4><center>Daily Inventory Count</center></h4>
+        <h5><center>Tank 1</center></h5>
+        Product:
+        <select class="login-username"  id="product1" placeholder="Product">
+            <option>Petrol</option>
+            <option>Deisel</option>
+            <option>Kerosene</option>
+        </select>
+        Quantity:
+        <input class="login-username" id="qtyMeasured1" value="33000" />
+        NH:
+        <input class="login-username" id="nh1" value="100" />
+        LH:
+        <input class="login-username" id="lh1" value="50" />
+        OH:
+        <input class="login-username" id="oh1" value="70" />
+        Date:
+        <input class="login-username" id="date1" type="date" />
+        Time:
+        <input class="login-username" id="time1" type="time" />
+
+        <center><a href="#" id="recordstock1" class="button button-green fetch-history">Record Stock Count</a></center>
+
+    </div>
+    <div class="tab-content tab-content-2">
+        <p id='comp2'>
+        <h4><center>Daily Inventory Count</center></h4>
+        <h5><center>Tank 2</center></h5>
+        Product:
+        <select class="login-username" id="product2" placeholder="Product">
+            <option>Petrol</option>
+            <option>Diesel</option>
+            <option>Kerosene</option>
+        </select>
+        Quantity:
+        <input class="login-username" id="qtyMeasured2" value="33000" />
+        NH:
+        <input class="login-username" id="nh2" value="100" />
+        LH:
+        <input class="login-username" id="lh2" value="50" />
+        OH:
+        <input class="login-username" id="oh2" value="70" />
+        Date:
+        <input class="login-username" id="date2" type="date" />
+        Time:
+        <input class="login-username" id="time2" type="time" />
+
+        <center><a href="#" id="recordstock2" class="button button-green fetch-history">Record Stock Count</a></center>
+
+    </div>
+    <div class="tab-content tab-content-3">
+        <p id='comp3'>
+        <h4><center>Daily Inventory Count</center></h4>
+        <h5><center>Tank 3</center></h5>
+        Product:
+        <select class="login-username" id="product3" placeholder="Product">
+            <option>Petrol</option>
+            <option>Deisel</option>
+            <option>Kerosene</option>
+        </select>
+        Quantity:
+        <input class="login-username" id="qtyMeasured3" value="33000" />
+        NH:
+        <input class="login-username" id="nh3" value="100" />
+        LH:
+        <input class="login-username" id="lh3" value="50" />
+        OH:
+        <input class="login-username" id="oh3" value="70" />
+        Date:
+        <input class="login-username" id="date3" type="date" />
+        Time:
+        <input class="login-username" id="time3" type="time" />
+
+        <center><a href="#" id="recordstock3" class="button button-green fetch-history">Record Stock Count</a></center>
+
+    </div>
+    <div class="tab-content tab-content-4">
+        <p id='comp4'>
+        <h4><center>Daily Inventory Count</center></h4>
+        <h5><center>Tank 4</center></h5>
+        Product:
+        <select class="login-username" id="product4" placeholder="Product">
+            <option>Petrol</option>
+            <option>Deisel</option>
+            <option>Kerosene</option>
+        </select>
+        Quantity:
+        <input class="login-username" id="qtyMeasured4" value="33000" />
+        NH:
+        <input class="login-username" id="nh4" value="100" />
+        LH:
+        <input class="login-username" id="lh4" value="50" />
+        OH:
+        <input class="login-username" id="oh4" value="70" />
+        Date:
+        <input class="login-username" id="date4" type="date" />
+        Time:
+        <input class="login-username" id="time4" type="time" />
+
+        <center><a href="#" id="recordstock4" class="button button-green fetch-history">Record Stock Count</a></center>
+
+    </div>
+    <div class="tab-content tab-content-5">
+        <p id='comp5'>
+        <h4><center>Daily Inventory Count</center></h4>
+        <h5><center>Tank 5</center></h5>
+        Product:
+        <select class="login-username" id="product5" placeholder="Product">
+            <option>Petrol</option>
+            <option>Deisel</option>
+            <option>Kerosene</option>
+        </select>
+        Quantity:
+        <input class="login-username" id="qtyMeasured5" value="33000" />
+        NH:
+        <input class="login-username" id="nh5" value="100" />
+        LH:
+        <input class="login-username" id="lh5" value="50" />
+        OH:
+        <input class="login-username" id="oh5" value="70" />
+        Date:
+        <input class="login-username" id="date5" type="date" />
+        Time:
+        <input class="login-username" id="time5" type="time" />
+
+        <center><a href="#" id="recordstock5" class="button button-green fetch-history">Record Stock Count</a></center>
+
+    </div>
+    <div class="tab-content tab-content-6 tab-active">
+        <p id='comp6'>
+        <h4><center>Daily Inventory Count</center></h4>
+        <h5><center>Tank 6</center></h5>
+        Product:
+        <select class="login-username" id="product6" placeholder="Product">
+            <option>Petrol</option>
+            <option>Deisel</option>
+            <option>Kerosene</option>
+        </select>
+        Quantity:
+        <input class="login-username" id="qtyMeasured6" value="33000" />
+        NH:
+        <input class="login-username" id="nh6" value="100" />
+        LH:
+        <input class="login-username" id="lh6" value="50" />
+        OH:
+        <input class="login-username" id="oh6" value="70" />
+        Date:
+        <input class="login-username" id="date6" type="date" />
+        Time:
+        <input class="login-username" id="time6" type="time" />
+
+        <center><a href="#" id="recordstock6" class="button button-green fetch-history">Record Stock Count</a></center>
+
+    </div>
+
+
+
+
+
+    <div class="footer-section">
+        <p class="footer-text" style="color:#fff; font-weight: bold;">
+            Copyright Serve Consulting Limited 2016.<br>
+            All rights reserved.
+        </p>
+    </div>
+</div>
+
+</body>
+
+<!-- Mirrored from enableds.com/products/sandglass/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:20:49 GMT -->
+</html>
+
+

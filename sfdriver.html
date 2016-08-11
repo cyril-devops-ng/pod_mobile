@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+
+<!-- Mirrored from enableds.com/products/sandglass/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:20:49 GMT -->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/splash/splash-icon.png">
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen.png" media="screen and (max-device-width: 320px)"
+    />
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen%402x.png" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)"
+    />
+    <link rel="apple-touch-startup-image" sizes="640x1096" href="images/splash/splash-screen%403x.png" />
+    <link rel="apple-touch-startup-image" sizes="1024x748" href="images/splash/splash-screen-ipad-landscape.html" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)"
+    />
+    <link rel="apple-touch-startup-image" sizes="768x1004" href="images/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)"
+    />
+    <link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png" media="(device-width: 768px)	and (orientation: portrait)	and (-webkit-device-pixel-ratio: 2)"
+    />
+    <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)"
+    />
+
+    <title>FORTE OIL POD - Driver</title>
+
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <link href="styles/framework.css" rel="stylesheet" type="text/css">
+    <link href="styles/owl.carousel.css" rel="stylesheet" type="text/css">
+    <link href="styles/owl.theme.css" rel="stylesheet" type="text/css">
+    <link href="styles/swipebox.css" rel="stylesheet" type="text/css">
+    <link href="styles/colorbox.css" rel="stylesheet" type="text/css">
+    <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="styles/animate.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" src="scripts/wow.js"></script>
+    <script type="text/javascript" src="scripts/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.swipebox.js"></script>
+    <script type="text/javascript" src="scripts/colorbox.js"></script>
+    <script type="text/javascript" src="scripts/snap.js"></script>
+    <script type="text/javascript" src="scripts/countdown.js"></script>
+    <script type="text/javascript" src="scripts/contact.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/framework.js"></script>
+    <script type="text/javascript" src="scripts/framework.launcher.js"></script>
+
+    <script type="text/javascript">
+        var QueryString = function () {
+            // This function is anonymous, is executed immediately and 
+            // the return value is assigned to QueryString!
+            var query_string = {};
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                // If first entry with this name
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = decodeURIComponent(pair[1]);
+                    // If second entry with this name
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                    query_string[pair[0]] = arr;
+                    // If third or later entry with this name
+                } else {
+                    query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                }
+            }
+            return query_string;
+        }();
+        $(document).ready(function () {
+            $("#status").fadeOut(); // will first fade out the loading animation
+            $("#preloader").delay(500).fadeOut("slow"); // will fade out the white DIV that covers the website.website. 
+            var d = new Date();
+            $('#qty').val(QueryString.quantity);
+            $('#qtyshipped').html(QueryString.qtyshipped);
+            $('#drivername').html(QueryString.drivername);
+            $('#delivery').html(QueryString.delivery);
+            $('#deliverydate').html(new Date().toString());
+            $('#deliverytime').html(d.toTimeString());
+            //get driver number
+            $('.verify-driver').click(function () {
+              var pass = $('#driverPass').val();  
+                $("#status").fadeIn(); // will first fade out the loading animation
+		$("#preloader").fadeIn("slow");
+                if (pass != null && pass != '') {
+//                    $.get('http://159.122.6.157:2080/forteppms/api/driver/' + QueryString.drivername + 'AND' + pass, function (msg, stat, xhr) {
+////                    $.get('http://54.93.100.18/ppms/api/driver/' + QueryString.drivername + 'AND' + pass, function (msg, stat, xhr) {
+//                        if (xhr.readyState === 4) {
+//                            if (xhr.status === 200) {
+//                                if (JSON.parse($.trim(msg)) === 'true') {
+//                                    $("#status").fadeOut(); // will first fade out the loading animation
+//                                    $("#preloader").delay(500).fadeOut("slow");
+//                                    var delqty = prompt('Quantity delivered:', '0');
+//                                    var dq = parseFloat(delqty);
+//                                    if (dq > 0) {
+////                                        window.location.href = 'sfstatus.html?qtyrec=' + QueryString.quantity + '&qtydel=' + delqty + '&delivery=' + $('#delivery').html() + '&qtyshipped=' + $('#qtyshipped').html();
+//                                        window.location.href = 'haulage.html?qtyrec=' + QueryString.quantity + '&qtydel=' + delqty + '&delivery=' + $('#delivery').html() + '&qtyshipped=' + $('#qtyshipped').html();
+//                                    }
+//
+//                                } else {
+//                                    alert('Passscode is not Recognized!');
+//                                }
+//                                $("#status").fadeOut(); // will first fade out the loading animation
+//                                $("#preloader").delay(300).fadeOut("slow");
+//                            }
+//                        }
+//                    });
+                       if(pass == window.localStorage.getItem('token')){
+                           $("#status").fadeOut(); // will first fade out the loading animation
+                                $("#preloader").delay(500).fadeOut("slow");
+                                    var delqty = 0;
+                                   window.location.href = 'haulage.html?qtyrec=' + QueryString.quantity + '&qtydel=' + delqty + '&delivery=' + $('#delivery').html() + '&qtyshipped=' + $('#qtyshipped').html();
+                        }else{
+                            //check the token generated by customer service
+                            var gen = '';
+                            $.post('http://54.93.100.18/ppms/api/checktoken/',{checktoken:true,driver:$.trim(QueryString.drivername)},function(msg,stat,xhr){
+                                if(xhr.readyState === 4){
+                                    if(xhr.status === 200){
+                                        gen = $.trim(msg);
+                                    }
+                                }
+                            }).then(function(){
+                                $("#status").fadeOut();
+                                $("#preloader").delay(500).fadeOut("slow");
+                                 if(gen != 'null'){
+                                     if(pass == JSON.parse(gen)){
+                                         $("#status").fadeOut(); // will first fade out the loading animation
+                                         $("#preloader").delay(500).fadeOut("slow");
+                                         var delqty = 0;
+                                         window.location.href = 'haulage.html?qtyrec=' + QueryString.quantity + '&qtydel=' + delqty + '&delivery=' + $('#delivery').html() + '&qtyshipped=' + $('#qtyshipped').html();
+                                     }else{
+                                         alert("You have provided a wrong token, Click on Get a token!");
+                                     }
+                                 }else{
+                                     alert("You have provided a wrong token, Click on Get a token!");
+                                 }
+                           });
+                           
+                       }
+
+                }else{
+                    alert("Provide your passcode!");
+                   $("#status").fadeOut(); // will first fade out the loading animation
+                   $("#preloader").delay(300).fadeOut("slow");
+                }
+            });
+
+            
+            ///generate token button
+            $('.gen-token').click(function(){
+                $('#status').fadeIn();
+                $('#preloader').fadeIn('slow');
+               
+                var url = 'http://54.93.100.18/ppms/api/gentoken/'+$.trim(QueryString.drivername)
+//                var url = 'http://159.122.6.157:2080/forteppms/api/gentoken/'+QueryString.drivername
+                +'AND'+$.trim(window.localStorage.getItem('driver_cell'));
+                $.post(url,{},function(msg,stat,xhr){
+//                $.post('http://54.93.100.18/ppms/api/gentoken',{},function(msg,stat,xhr){
+                    if(xhr.readyState === 4){
+                        if(xhr.status === 200){
+                            setTimeout(function(){
+                                $("#status").fadeOut(); // will first fade out the loading animation
+                                $("#preloader").delay(500).fadeOut("slow");
+                                window.localStorage.setItem('token',$.trim(msg));
+                                
+                                alert("A token has been sent to the driver! Token last for only 15mins.");
+                            },2000);
+                            
+                        }
+                        $("#status").fadeOut(); // will first fade out the loading animation
+                        $("#preloader").delay(500).fadeOut("slow");
+                    }
+                });
+            });
+
+        });
+    </script>
+</head>
+
+<body style="font-family: FontAwesome;font-size: 16px;">
+
+    <div id="preloader">
+        <div id="status">
+            <p class="center-text">
+                Loading the content...
+                <em>Loading depends on your connection speed!</em>
+            </p>
+        </div>
+    </div>
+
+    <div class="header">
+        <a class="deploy-navigation going-up" href="#" id="homeDel">
+            <!-- sfdeliveries.html -->
+            <i class="fa fa-navicon"></i>
+        </a>
+        <a class="deploy-navigation2" href="logout.html" id="logout">
+            <i class="fa fa-lock"></i>
+        </a>
+        <a class="header-logo" href="#"><img src="images/forte/logo.png" alt="img"></a>
+    </div>
+
+    <div class="header-clear"></div>
+    <div class="page-navigation full-bottom">
+        <div class="nav-clear"></div>
+        <div class="nav-item">
+            <a class="" href="sfdeliveries.html">
+                <i class="fa fa-truck"></i> Pending Deliveries
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="history.html">
+                <i class="fa fa-car"></i> Delivery History
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="inventory.html">
+                <i class="fa fa-table"></i> Inventory
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="reportissue.html">
+                <i class="fa fa-eye"></i> Report Issue
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+    </div>
+
+
+
+    <div class="login-box1 full-bottom" style="font-family: FontAwesome;font-size: 18px;padding:10px;"><br/><br/>
+        <h4>
+            <center>DRIVER VALIDATE</center>
+        </h4><br/><br/>
+        <center>
+            <img src="images/forte/driver.png" alt="img" width="70" height="80">
+        </center>
+        <p>Hello <span id="drivername">  </span>,
+            <br/>Kindly verify that You have delivered?
+            <br/><b>Waybill Number: </b><span id="delivery"></span>
+            <br/><b>Shipped Quantity: </b><span id="qtyshipped"></span>
+            <br/><b>Delivery Date: </b><span id="deliverydate"></span>
+            <br/><b>Delivery Time: </b><span id="deliverytime"></span>
+            <input type="text" class="login-username" id="qty" value="" disabled/>
+            <input type="password" class="login-password" placeholder="Please enter your passcode" id="driverPass">
+            <center>
+
+                <a href="#" class="button button-blue gen-token"><span class="fa fa-cog"></span>&nbsp;Get a Token</a>
+                <a href="#" class="button button-green verify-driver"><span class="fa fa-lock"></span>&nbsp;Authenticate</a>
+
+            </center>
+
+    </div>
+
+    <div class="content">
+        <div class="decoration"></div>
+
+        <div class="footer-section">
+            <p class="footer-text" style="color:#41CB55; font-weight: bold;">
+                Copyright Serve Consulting Limited 2016.<br> All rights reserved.
+            </p>
+        </div>
+    </div>
+
+</body>
+
+<!-- Mirrored from enableds.com/products/sandglass/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:20:49 GMT -->
+
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE HTML>
+
+<!-- Mirrored from enableds.com/products/sandglass/typography.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:19:55 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/splash/splash-icon.png">
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen.png" 			media="screen and (max-device-width: 320px)" />  
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen%402x.png" 		media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" /> 
+    <link rel="apple-touch-startup-image" sizes="640x1096" href="images/splash/splash-screen%403x.png" />
+    <link rel="apple-touch-startup-image" sizes="1024x748" href="images/splash/splash-screen-ipad-landscape.html" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)" />
+    <link rel="apple-touch-startup-image" sizes="768x1004" href="images/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)" />
+    <link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png"   media="(device-width: 768px)	and (orientation: portrait)	and (-webkit-device-pixel-ratio: 2)"/>
+    <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png"   media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)"/>
+
+    <title>Invoice List</title>
+
+    <link href="styles/style.css"     		 rel="stylesheet" type="text/css">
+    <link href="styles/framework.css" 		 rel="stylesheet" type="text/css">
+    <link href="styles/owl.carousel.css" 	 rel="stylesheet" type="text/css">
+    <link href="styles/owl.theme.css" 		 rel="stylesheet" type="text/css">
+    <link href="styles/swipebox.css"		 rel="stylesheet" type="text/css">
+    <link href="styles/colorbox.css"		 rel="stylesheet" type="text/css">
+    <link href="styles/font-awesome.css"	 rel="stylesheet" type="text/css">
+    <link href="styles/animate.css"			 rel="stylesheet" type="text/css">
+    <style type="text/css">
+        #dialogg {
+            display: none;
+            padding-top: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+    <!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <!--<script type="text/javascript" src="scripts/jqueryui.js"></script>-->
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setTimeout(function(){
+                $("#status").fadeOut(); // will first fade out the loading animation
+                $("#preloader").delay(500).fadeOut("slow")
+            },6000);
+            var userid = JSON.parse(window.localStorage.getItem('user'))[0].id;
+            $('#searchBlockID').hide();
+            $('#searchHelp').click(function () {
+                $('#searchBlockID').slideToggle('slow');
+            });
+
+            var transid = JSON.parse(window.localStorage.getItem('session'))[0].lifnr;
+            
+//            var d = new Date();
+//            var d30 = d.getDate() - 30;
+//            $('#todate').html(d.getDate().toString());
+//            $('#fromdate').html(d30);
+
+            //fetch all inventory records for past one month
+            var url = 'http://54.93.100.18/ppms/api/invoicelist';
+            var invoices = '';
+            var row = '';
+            $.post(url, {'invoice': true,  'transid': transid}, function (msg, stat, xhr) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                       invoices = JSON.parse($.trim(msg));
+                    }
+                }
+            }).then(function(){
+                var d = invoices;
+                for(var i=0;i<d.length;i++){
+                     row += '<tr>'+
+                            '<td class="table-sub-title">'+ d[i]['invoice_doc_no']+'/ '+d[i]['delivery']+'</td>'+
+                            '<td>'+d[i]['amount']+'</td>'+
+                            '<td>'+d[i]['invoice_date']+'</td>'+
+                            // '<td>'+  ( d[i]['status']=='C'?'<img src="images/forte/green.png" alt="img" width="20" height="20">':'<img src="images/forte/yellow.png" alt="img" width="20" height="20">' ) + '</td>'+
+                            '<td>'+  '<img src="images/forte/green.png" alt="img" width="20" height="20">'+ '</td>'+
+                        '</tr>';
+                    
+                }
+                $('#reportBody').html(row);
+                $("#status").fadeOut();
+                $("#preloader").delay(500).fadeOut("slow");
+            });
+
+            $('#invoice').click(function () {
+                $("#status").fadeIn();
+                $("#preloader").fadeIn("slow");
+
+                setTimeout(function () {
+                    window.location.href = 'transporterhome.html';
+                }, 2000);
+            });
+
+            $('body').on('click', '.more', function () {
+                var id = $(this).attr('id');
+                var inv_data = window.localStorage.getItem('inventoryreport');
+                var iData = JSON.parse(inv_data);
+                var row = '';
+                for (var i = 0; i < iData.length; i++) {
+                    if (iData[i].invid == id) {
+                        $('#tanknumber').html(iData[i].tank);
+                        $('#product').html(iData[i].product);
+                        $('#volume').html(iData[i].quantity);
+                        $('#nh').html(iData[i].measure1);
+                        $('#oh').html(iData[i].measure2);
+                        $('#lh').html(iData[i].measure3);
+                        $('#date').html(iData[i].dateentered);
+                        $('#time').html(iData[i].timeentered);
+                    }
+                }
+                $('#dialogg').dialog();
+
+            });
+
+            $('.searchInv').click(function () {
+                $("#status").fadeIn();
+                $("#preloader").fadeIn("slow");
+                var from = $('#from').val();
+                var to = $('#to').val();
+                var url = 'http://54.93.100.18/ppms/api';
+                var row = '';
+                if (from === '' || to === '') {
+                    alert('Either From or To field is empty!');
+                    $("#status").fadeOut();
+                    $("#preloader").delay(500).fadeOut("slow");
+                } else {
+                    $('#fromdate').html(from);
+                    $('#todate').html(to);
+                    row = '';
+                    $.post(url, {'inv_search': true, 'from': from, 'to': to, 'userid': userid}, function (msg, stat, xhr) {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                window.localStorage.setItem('inventoryreport', $.trim(msg));
+                                var inv_data = window.localStorage.getItem('inventoryreport');
+                                var iData = JSON.parse(inv_data);
+                                for (var i = 0; i < iData.length; i++) {
+                                    row += '<tr>' +
+                                            '<td class="table-sub-title">' + iData[i].product + '</td>' +
+                                            '<td>' + iData[i].quantity + '</td>' +
+                                            '<td><a href="#" id="' + iData[i]['invid'] + '" class="button button-green more" style="width:20px;"><span class="fa  fa-angle-double-right">&nbsp;</span></a></td>' +
+                                            '<td>' + iData[i]['dateentered'] + '</td>' +
+                                            '</tr>';
+                                }
+                                $('#reportBody').html(row);
+                                $("#status").fadeOut();
+                                $("#preloader").delay(500).fadeOut("slow");
+                            } else {
+                                $('#reportBody').html(row);
+                                $("#status").fadeOut();
+                                $("#preloader").delay(500).fadeOut("slow");
+                            }
+                        } else {
+                            $('#reportBody').html(row);
+                            $("#status").fadeOut();
+                            $("#preloader").delay(500).fadeOut("slow");
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript" src="scripts/wow.js"></script>
+    <script type="text/javascript" src="scripts/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.swipebox.js"></script>
+    <script type="text/javascript" src="scripts/colorbox.js"></script>
+    <script type="text/javascript" src="scripts/snap.js"></script>
+    <script type="text/javascript" src="scripts/countdown.js"></script>
+    <script type="text/javascript" src="scripts/contact.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/framework.js"></script>
+    <script type="text/javascript" src="scripts/framework.launcher.js"></script>
+
+</head>
+<body>
+    <div id="preloader">
+        <div id="status">
+            <p class="center-text">
+                Loading the content...
+                <em>Loading depends on your connection speed!</em>
+            </p>
+        </div>
+    </div>
+    <div id="dialogg">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h4 id="myModalLabel" class="modal-title">Details</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <th>Waybill: </th><td id="waybill"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <a class="deploy-navigation going-up" href="#" id="homeDel"><!-- sfdeliveries.html -->
+            <i class="fa fa-navicon"></i>
+        </a>
+        <a class="deploy-navigation2" href="logout.html" id="logout">
+            <i class="fa fa-lock"></i>
+        </a>
+        <a class="header-logo" href="#"><img src="images/forte/logo.png" alt="img"></a>
+    </div>
+
+    <div class="header-clear"></div>
+    <div class="page-navigation full-bottom">
+        <div class="nav-clear"></div>
+        <div class="nav-item">
+            <a class="" href="transporterhome.html">
+                <i class="fa fa-truck"></i>
+                Completed Deliveries
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="transporterhistory.html">
+                <i class="fa fa-car"></i>
+                Delivery History
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="invoicelist.html">
+                <i class="fa fa-table"></i>
+                Invoice List
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+        <a class="" href="drivermgmt.html">
+            <i class="fa fa-user"></i>
+            Driver Mgmt
+            <i class="fa fa-circle"></i>
+        </a>
+    </div>
+    <div class="nav-item">
+            <a class="" href="reportissue2.html">
+                <i class="fa fa-eye"></i> Report Issue
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="nav-clear"></div>
+
+
+    <div class="content">
+        <h3>Invoiced Deliveries</h3>
+        <p></p>
+        <a id="searchHelp" href="#" class="button button-green search-help" style="width:180px;"><span class="fa fa-search-plus"></span>&nbsp;Search Help</a>
+        <a id="invoice" href="#" class="button button-green" style="width:180px;"><span class="fa fa-plus"></span>&nbsp;New Invoice</a>
+        <div id="searchBlockID" class="container no-bottom" style="height:200px;padding:8px 8px;">
+            <div >
+                <div id="searchBlock" class="row"> 
+                    <div class="col-md-3">
+                        From: <input class="login-username" type="date" name="from" id="from" style="width:180px;"/>
+                    </div>
+                    <div class="col-md-3">
+                        To: <input class="login-username" type="date" name="to" id="to" style="width:180px;"/>
+
+                    </div>
+                    <a href="#" class="button button-green searchInv" style="width:180px;"><span class="fa fa-search"></span>&nbsp;Search</a>
+                    <!--<button class="searchBtn" class="button button-blue" style="width:180px;height:50px;">Search</button>-->
+                </div>
+                <!--            <table cellpadding="1" border="0" style="padding:1px;width:180px;height:40px;">
+                                <tr>
+                                    <td style="font-size: 9px;"><img src="images/forte/yellow.png" alt="img" width="20" height="20"></td><td>Pending!</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 9px;"><img src="images/forte/green.png" alt="img" width="20" height="20"></td><td>Delivered!</td>
+                                </tr>
+                            </table>-->
+            </div>
+        </div> 
+
+
+        <p>
+                <!--from <span id="fromdate"></span> to <span id="todate"></span> </b></p>-->
+                <div class="container no-bottom">
+                    <table cellspacing='0' class="table" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Invoice No.</th>
+                                <th class="table-title" >Amount</th>
+                                <th class="table-title">Date</th>
+                                <th class="table-title">Status</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody id="reportBody">
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="decoration"></div>    
+                <div class="footer-section">
+                    <p class="footer-text" style="color:#41CB55; font-weight: bold;">
+                        Copyright Serve Consulting Limited 2016.<br>
+                        All rights reserved.
+                    </p>
+                </div>
+    </div>
+</body>
+
+<!-- Mirrored from enableds.com/products/sandglass/typography.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:19:55 GMT -->
+</html>
+
+

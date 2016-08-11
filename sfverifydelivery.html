@@ -1,0 +1,483 @@
+<!DOCTYPE HTML>
+
+<!-- Mirrored from enableds.com/products/sandglass/typography.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:19:55 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/splash/splash-icon.png">
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen.png"            media="screen and (max-device-width: 320px)" />  
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen%402x.png"       media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" /> 
+    <link rel="apple-touch-startup-image" sizes="640x1096" href="images/splash/splash-screen%403x.png" />
+    <link rel="apple-touch-startup-image" sizes="1024x748" href="images/splash/splash-screen-ipad-landscape.html" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)" />
+    <link rel="apple-touch-startup-image" sizes="768x1004" href="images/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)" />
+    <link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png"   media="(device-width: 768px)  and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)"/>
+    <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png"   media="(device-width: 768px) and (orientation: landscape)    and (-webkit-device-pixel-ratio: 2)"/>
+
+    <title>Deliveries</title>
+
+    <link href="styles/style.css"            rel="stylesheet" type="text/css">
+    <link href="styles/framework.css"        rel="stylesheet" type="text/css">
+    <link href="styles/owl.carousel.css"     rel="stylesheet" type="text/css">
+    <link href="styles/owl.theme.css"        rel="stylesheet" type="text/css">
+    <link href="styles/swipebox.css"         rel="stylesheet" type="text/css">
+    <link href="styles/colorbox.css"         rel="stylesheet" type="text/css">
+    <link href="styles/font-awesome.css"     rel="stylesheet" type="text/css">
+    <link href="styles/animate.css"          rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" src="scripts/wow.js"></script>
+    <script type="text/javascript" src="scripts/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.swipebox.js"></script>
+    <script type="text/javascript" src="scripts/colorbox.js"></script>
+    <script type="text/javascript" src="scripts/snap.js"></script>
+    <script type="text/javascript" src="scripts/countdown.js"></script>
+    <script type="text/javascript" src="scripts/contact.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/framework.js"></script>
+    <script type="text/javascript" src="scripts/framework.launcher.js"></script>
+
+    <script type="text/javascript">
+        var QueryString = function () {
+            // This function is anonymous, is executed immediately and 
+            // the return value is assigned to QueryString!
+            var query_string = {};
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                // If first entry with this name
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = decodeURIComponent(pair[1]);
+                    // If second entry with this name
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                    query_string[pair[0]] = arr;
+                    // If third or later entry with this name
+                } else {
+                    query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                }
+            }
+            return query_string;
+        }();
+        $(document).ready(function () {
+            $("#status").fadeOut(); // will first fade out the loading animation
+            $("#preloader").delay(500).fadeOut("slow"); // will fade out the white DIV that covers the website.website. 
+            var data = window.localStorage.getItem('session');
+            var userid = JSON.parse(window.localStorage.getItem('user'))[0].id;
+            var truck = '';
+            var delinfo = '';
+            var d = JSON.parse(data);
+            
+                    for (var i = 0; i < d.length; i++) {
+                        if (d[i]["vbeln"] === QueryString.id) {
+                            $('#delno').html(d[i]["vbeln"]);
+                            $('#transporter').html(d[i]["transporter"]);
+                            $('#driver').html(d[i]["driver"]);
+                            $('#truckno').html(d[i]["truckno"]);
+                            $('#truckqty').html(d[i]["quantity"]);
+                            $('#phoneno').html(d[i]["cellnumber"]);
+                            truck = d[i]['truckno'];
+                            window.localStorage.setItem('driver_cell', d[i]['cellnumber']);
+                            $('input').each(function () {
+                                $(this).val($.trim(d[i][$(this).attr('id')]));
+                            });
+                            $('#qty').val(d[i]["quantity"]);
+                        }
+                    }
+               
+
+
+
+            $('#cert').click(function () {
+                $("#something").html('');
+                $('#status').fadeIn();
+                $('#preloader').fadeIn('slow');
+                $('.center-text').html(
+                        'Loading Calibration Certificate...' +
+                        '<em>Loading depends on your connection speed!</em>');
+                //            var url = 'http://54.93.100.18/ppms/api';
+                //            var url = 'http://159.122.6.157:2080/forteppms/api';
+                var url = 'http://54.93.100.18/ppms/calibration/' + truck + ".PNG";
+                var data = {
+                    truck: truck,
+                    calibration: true
+                };
+                try {
+                    setTimeout(function () {
+                        var img = $('<img class="float-left" width="100%" height="100%" alt="img" />').attr('src', url)
+                                .on('load', function () {
+                                    if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                        alert('broken image!');
+                                        $('#status').fadeOut('slow');
+                                        $('#preloader').delay(500).fadeOut('slow');
+                                    } else {
+                                        $("#something").append(img);
+                                        $('#status').fadeOut('slow');
+                                        $('#preloader').delay(500).fadeOut('slow');
+                                    }
+                                });
+
+                    }, 2000);
+                } catch (err) {
+                    alert('Calibration certificate not available!');
+                    $('#status').fadeOut('slow');
+                    $('#preloader').delay(500).fadeOut('slow');
+                }
+                
+                setTimeout(function(){
+                    $('#status').fadeOut('slow');
+                    $('#preloader').delay(500).fadeOut('slow');
+                },10000);
+            });
+
+
+            //             $.post(url,data,function(msg,stat,xhr){
+            //                    if(xhr.readyState === 4){
+            //                        if(xhr.status === 200){
+            //                            setTimeout(function(){
+            //                                $('.center-text').html(
+            //                                   'Loading the content...'+
+            //                           '<em>Loading depends on your connection speed!</em>');
+            //                                   $('#status').fadeOut('slow');
+            //                                   $('#preloader').delay(500).fadeOut('slow');
+            //                                   },2000);
+            //                        }
+            //                    }
+            //                     
+            //                    
+            //                });
+            //           
+
+
+
+
+            $('.item').click(function () {
+                //show modal dialog
+                var quantity = prompt('Enter quantity received:', '0');
+                var id = $(this).id;
+                var q = parseFloat(quantity);
+
+                if (q > 0 && q != null) {
+                    window.location.href = 'driver.html?quantity=' + $('#qty').val() + '&drivername=' + $('#driver').html() + '&delivery=' + $('#delno').html() + '&qtyshipped=' + $('#truckqty').html();
+                }
+            });
+
+            $('.verify-delivery').click(function (evt) {
+                evt.preventDefault();
+                $("#status").fadeIn(); // will first fade out the loading animation
+                $("#preloader").fadeIn("slow");
+                var err = '';
+                var er = 0;
+                var errList = {
+                    'ob_nh1': 'Neck Height 1',
+                    'ob_nh2': 'Neck Height 2',
+                    'ob_nh3': 'Neck Height 3',
+                    'ob_lh1': 'Liquid Height 1',
+                    'ob_lh2': 'Liquid Height 2',
+                    'ob_lh3': 'Liquid Height 3',
+                    'ob_th1': 'Total Height 1',
+                    'ob_th2': 'Total Height 2',
+                    'ob_th3': 'Total Height 3',
+                    'ob_ul1': 'Ullage 1',
+                    'ob_ul2': 'Ullage 2',
+                    'ob_ul3': 'Ullage 3',
+                }
+                $('input.gantry').each(function () {
+                    var _id = $(this).attr('id');
+                    $this = $(this);
+                    if( _id.indexOf('ob') < 0 ){
+                        if($this.val() != '' && $this.val() != 0 && $this.val() != null){
+                            $observed = $('#ob_'+_id).val();
+                             if ($observed == '' || isNaN($observed)) {
+                                err += '*' + errList['ob_'+_id] + "\n";
+                                er += 1;
+                            }
+                        }
+                    }
+                   
+                });
+
+                if (er > 0) {
+                    alert('Ensure you fill a number for these fields\n' + err);
+                    $("#status").fadeOut(); // will first fade out the loading animation
+                    $("#preloader").delay(500).fadeOut("slow");
+                } else {
+                    window.nh1 = $('#ob_nh1').val();
+                    window.nh2 = $('#ob_nh2').val();
+                    window.nh3 = $('#ob_nh3').val();
+                    window.lh1 = $('#ob_lh1').val();
+                    window.lh2 = $('#ob_lh2').val();
+                    window.lh3 = $('#ob_lh3').val();
+                    window.th1 = $('#ob_th1').val();
+                    window.th2 = $('#ob_th2').val();
+                    window.th3 = $('#ob_th3').val();
+                    window.ul1 = $('#ob_ul1').val();
+                    window.ul2 = $('#ob_ul2').val();
+                    window.ul3 = $('#ob_ul3').val();
+                    window.localStorage.setItem('nh1', window.nh1);
+                    window.localStorage.setItem('nh2', window.nh2);
+                    window.localStorage.setItem('nh3', window.nh3);
+                    window.localStorage.setItem('lh1', window.lh1);
+                    window.localStorage.setItem('lh2', window.lh2);
+                    window.localStorage.setItem('lh3', window.lh3);
+                    window.localStorage.setItem('th1', window.th1);
+                    window.localStorage.setItem('th2', window.th2);
+                    window.localStorage.setItem('th3', window.th3);
+                    window.localStorage.setItem('ul1', window.ul1);
+                    window.localStorage.setItem('ul2', window.ul2);
+                    window.localStorage.setItem('ul3', window.ul3);
+                    window.location.href = 'sfdriver.html?quantity=' + $('#qty').val() + '&drivername=' + $('#driver').html() + '&delivery=' + $('#delno').html() + '&qtyshipped=' + $('#truckqty').html();
+                }
+            });
+
+        });
+    </script>
+
+</head>
+<body style="font-family: times;">
+
+    <div id="preloader">
+        <div id="status">
+            <p class="center-text">
+                Loading the content...
+                <em>Loading depends on your connection speed!</em>
+            </p>
+        </div>
+    </div>
+
+
+    <div class="header">
+        <a class="deploy-navigation going-up" href="#" id="homeDel"><!-- sfdeliveries.html -->
+            <i class="fa fa-navicon"></i>
+        </a>
+        <a class="deploy-navigation2" href="logout.html" id="logout">
+            <i class="fa fa-lock"></i>
+        </a>
+        <a class="header-logo" href="#"><img src="images/forte/logo.png" alt="img"></a>
+    </div>
+    <div class="header-clear"></div>
+    <div class="page-navigation full-bottom">
+        <div class="nav-clear"></div>
+        <div class="nav-item">
+            <a class="" href="sfdeliveries.html">
+                <i class="fa fa-truck"></i>
+                Pending Deliveries
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="history.html">
+                <i class="fa fa-car"></i>
+                Delivery History
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="inventory.html">
+                <i class="fa fa-table"></i>
+                Inventory
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="reportissue.html">
+                <i class="fa fa-eye"></i> Report Issue
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="nav-clear"></div>
+
+
+    <div class="content">
+
+        <div class="container no-bottom">
+            <h3>Waybill Information</h3>
+            <center><img src="images/forte/petrolstation.png" alt="img" width="180" height="150"> </center>
+            <div class="tabs">
+                <a href="#" class="tab-but tab-but-1 tab-active"><span class="fa fa-truck"></span>&nbsp;Delivery</a>
+                <a href="#" id="cert" class="tab-but tab-but-2"><span class="fa fa-certificate"></span>&nbsp;Calibration</a>
+                <a href="#" class="tab-but tab-but-3"><span class="fa fa-tags"></span>&nbsp;Gantry</a>
+            </div>
+            <div class="tab-content tab-content-1">
+                <p id='delinfo'>
+                <table border="2" >
+                    <tr>
+                        <td><b>Waybill Number:</b></td><td> <span id="delno"></span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Transporter:</b> </td><td><span id="transporter"></span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Driver:</b></td><td> <span id="driver"></span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Driver Phone Number:</b></td><td> <span id="phoneno"></span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Truck Number:</b></td>   <td><span id="truckno"></span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Quantity Shipped:</b></td> <td><span id="truckqty"></span></td></br>
+                    </tr>
+                    <tr >
+
+                    </tr>
+                </table>
+
+                <!--<center><a href="#" class="button button-green verify-delivery">Verify Delivery</a></center>-->
+                </p>
+            </div>
+            <div class="tab-content tab-content-2">
+                <!--            src="images/forte/cal_cert.png"-->
+                <p id="something">
+                    <!--<img  class="float-left" width="100%" height="100%" alt="img">-->
+                    Calibration details.                   
+                </p>
+            </div>
+            <div class="tab-content tab-content-3">
+                <p id='comp1'>
+                <p>COMPART 1</p>
+                <table border="0" >
+                    <tr>
+                        <td><b>Haulage:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="ul1" name="ul1" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_ul1" id="ob_ul1" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Neck Height:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="nh1" name="nh1" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_nh1" id="ob_nh1" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Liquid Height:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" name="lh1" id="lh1" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_lh1" id="ob_lh1" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Overall Height:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="th1" name="th1" value="" disabled /> 
+                            Observed:
+                            <input class="login-username gantry"  style="background-color: #bee7cf;" type="number" name="ob_th1" id="ob_th1" />
+                        </td>
+                    </tr>
+                </table>
+
+                </p>
+                <p id='comp2'>
+                <p>COMPART 2</p>
+                <table border="0" >
+                     <tr>
+                        <td><b>Haulage:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="ul2" name="ul2" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_ul2" id="ob_ul2" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Neck Height:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="nh2" name="nh2" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_nh2" id="ob_nh2" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Liquid Height:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="lh2" name="lh2" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_lh2" id="ob_lh2" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Overall Height:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="th2" name="th2" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_th2" id="ob_th2" />
+                        </td>
+                    </tr>
+                </table>
+
+                </p>
+                <p id='comp3'>
+                <p>COMPART 3</p>
+                <table border="0" >
+                     <tr>
+                        <td><b>Haulage:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="ul3" name="ul3" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_ul3" id="ob_ul3" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Neck Height:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="nh3" name="nh3" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_nh3" id="ob_nh3" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Liquid Height:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="lh3" name="lh3" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_lh3" id="ob_lh3" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Overall Height:</b></td>
+                        <td> Delivered:
+                            <input class="login-username gantry" style="background-color: #E4E4E4;" type="number" id="th3" name="th3" value="" disabled/> 
+                            Observed:
+                            <input class="login-username gantry" style="background-color: #bee7cf;" type="number" name="ob_th3" id="ob_th3" />
+                        </td>
+                    </tr>
+                    <td colspan="2">
+                    <center><b>Verify Volume Received</b></center>
+                    <input type="text" class="login-username" id="qty"  value="" ></input>
+                    </td>
+                </table>
+
+                </p>
+
+            </div>
+            <center><a href="#" class="button button-green verify-delivery"><span class="fa fa-check-square-o"></span>&nbsp;Verify Delivery</a></center>
+        </div>   
+        <br/><br/><br/>
+        <div class="decoration"></div>    
+        <div class="footer-section">
+            <p class="footer-text" style="color:#41CB55; font-weight: bold;">
+                Copyright Serve Consulting Ltd 2016.<br>
+                All rights reserved.
+            </p>
+        </div>
+
+    </div>
+
+
+</body>
+
+<!-- Mirrored from enableds.com/products/sandglass/typography.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:19:55 GMT -->
+</html>
+
+

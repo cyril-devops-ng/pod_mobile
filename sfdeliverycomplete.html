@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+
+<!-- Mirrored from enableds.com/products/sandglass/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:20:49 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/splash/splash-icon.png">
+<link rel="apple-touch-startup-image" href="images/splash/splash-screen.png" 			media="screen and (max-device-width: 320px)" />  
+<link rel="apple-touch-startup-image" href="images/splash/splash-screen%402x.png" 		media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" /> 
+<link rel="apple-touch-startup-image" sizes="640x1096" href="images/splash/splash-screen%403x.png" />
+<link rel="apple-touch-startup-image" sizes="1024x748" href="images/splash/splash-screen-ipad-landscape.html" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)" />
+<link rel="apple-touch-startup-image" sizes="768x1004" href="images/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)" />
+<link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png"   media="(device-width: 768px)	and (orientation: portrait)	and (-webkit-device-pixel-ratio: 2)"/>
+<link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png"   media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)"/>
+
+<title>FORTE OIL POD - Rate Service</title>
+
+<link href="styles/style.css"     		 rel="stylesheet" type="text/css">
+<link href="styles/framework.css" 		 rel="stylesheet" type="text/css">
+<link href="styles/owl.carousel.css" 	 rel="stylesheet" type="text/css">
+<link href="styles/owl.theme.css" 		 rel="stylesheet" type="text/css">
+<link href="styles/swipebox.css"		 rel="stylesheet" type="text/css">
+<link href="styles/colorbox.css"		 rel="stylesheet" type="text/css">
+<link href="styles/font-awesome.css"	 rel="stylesheet" type="text/css">
+<link href="styles/animate.css"			 rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript" src="scripts/jqueryui.js"></script>
+<script type="text/javascript" src="scripts/wow.js"></script>
+<script type="text/javascript" src="scripts/owl.carousel.min.js"></script>
+<script type="text/javascript" src="scripts/jquery.swipebox.js"></script>
+<script type="text/javascript" src="scripts/colorbox.js"></script>
+<script type="text/javascript" src="scripts/snap.js"></script>
+<script type="text/javascript" src="scripts/countdown.js"></script>
+<script type="text/javascript" src="scripts/contact.js"></script>
+<script type="text/javascript" src="scripts/custom.js"></script>
+<script type="text/javascript" src="scripts/framework.js"></script>
+<script type="text/javascript" src="scripts/framework.launcher.js"></script>
+
+<script type="text/javascript"> 
+    var QueryString = function () {
+              // This function is anonymous, is executed immediately and 
+              // the return value is assigned to QueryString!
+              var query_string = {};
+              var query = window.location.search.substring(1);
+              var vars = query.split("&");
+              for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                    // If first entry with this name
+                if (typeof query_string[pair[0]] === "undefined") {
+                  query_string[pair[0]] = decodeURIComponent(pair[1]);
+                    // If second entry with this name
+                } else if (typeof query_string[pair[0]] === "string") {
+                  var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+                  query_string[pair[0]] = arr;
+                    // If third or later entry with this name
+                } else {
+                  query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                }
+              } 
+                return query_string;
+            }();
+    $(document).ready(function(){
+        $("#status").fadeOut(); // will first fade out the loading animation
+        $("#preloader").delay(500).fadeOut("slow");
+        $('#rejected').hide();
+        $('#accepted').hide();
+        $('#delno').html(QueryString.delivery);
+
+        var url = window.location.href;
+        if(url.indexOf('#1') >= 0 ){
+            $('#accepted').show();
+            // setTimeout(function(){
+                // var url = 'http://10.2.1.18:8000/sap/bc/webrfc?_FUNCTION=ZPOD_GET_DELIVERIES&_CUSTNO='+window.localStorage.getItem('user');
+                //  $.ajax({
+                //     type:'GET',
+                //     dataType:'json',
+                //     crossOrigin: true,
+                //     url:url,
+                    
+                //     success: function(data, textStatus){    
+                       
+                //         //if there is no error, then store the json file in the webstorage
+                //         window.localStorage.removeItem('session');
+                //         window.localStorage.setItem('session' , JSON.stringify(data));
+
+                //         // window.location.href = "sfdeliveries.html" ;
+
+                        
+                //     },
+                //     error:function(xhr,textStatus,errorThrown){
+                //         // alert(this.url+' An error occurred! ' + ( errorThrown ? errorThrown : xhr.status ));
+                //         alert('Ensure your internet connection is active!');
+                //     }
+//                });/
+        
+            // },2000);
+        }else{
+            $('#rejected').show();
+        }
+       
+       $('#accept').click(function(){
+           $("#status").fadeIn(); // will first fade out the loading animation
+           $("#preloader").fadeIn("slow");
+            // var delno = QueryString.delivery;
+            var rate = $('input[name=rate]').val();
+            var data2  = window.localStorage.getItem('user');
+             var d2 = JSON.parse(data2);
+             var user = d2[0].username;
+             var pass = d2[0].password;
+//             var url = 'http://159.122.6.157:2080/forteppms/api';
+             var url = 'http://54.93.100.18/ppms/api';
+            $('#preloader').show();
+            $('#status').show();
+            $("#status").fadeOut(); // will first fade out the loading animation
+            $("#preloader").delay(500).fadeOut("slow"); // will fade out the white DIV that covers the website.
+
+            var data = {
+                'cust_no':user,
+                'password':pass,
+                'rate':rate,
+                 'delivery':window.localStorage.getItem('deliveryno')
+            };
+            $.post(url,data,function(msg,stat,xhr){
+                if(xhr.readyState === 4){
+                    if(xhr.status === 200){
+                        if(JSON.parse($.trim(msg)).indexOf('Failed')<0){
+                            window.localStorage.setItem('user',$.trim(msg));
+                            window.location.href = 'sfdeliveries.html';
+                        }else{
+                            alert('Network delay! Please wait!');
+                        }
+                        
+                    }
+                }
+            });
+       });
+    });
+</script>
+<Style type="text/css">
+    input[type="radio"] {border:none;width:auto;height:auto;-webkit-appearance: radio;}
+
+</Style>
+</head>
+<body>
+
+<div id="preloader">
+	<div id="status">
+    	<p class="center-text">
+			Loading the content...
+            <em>Loading depends on your connection speed!</em>
+        </p>
+    </div>
+</div>
+
+
+<div class="header">
+    <a class="deploy-navigation going-up" href="#" id="homeDel"><!-- sfdeliveries.html -->
+        <i class="fa fa-navicon"></i>
+    </a>
+    <a class="deploy-navigation2" href="logout.html" id="logout">
+        <i class="fa fa-lock"></i>
+    </a>
+    <a class="header-logo" href="#"><img src="images/forte/logo.png" alt="img"></a>
+</div>
+
+<div class="header-clear"></div>
+    <div class="page-navigation full-bottom">
+        <div class="nav-clear"></div>
+        <div class="nav-item">
+            <a class="" href="sfdeliveries.html">
+                <i class="fa fa-truck"></i>
+                Pending Deliveries
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="history.html">
+                <i class="fa fa-car"></i>
+                Delivery History
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="inventory.html">
+                <i class="fa fa-table"></i>
+                Inventory
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="" href="reportissue.html">
+                <i class="fa fa-eye"></i> Report Issue
+                <i class="fa fa-circle"></i>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="nav-clear"></div>
+
+
+<div class="content">
+    <div class="decoration"></div>
+    <div class="container">
+
+        <div class="big-notification red-notification" id="rejected">
+                <h4 class="uppercase">Delivery Rejected</h4>
+                <a href="#" class="close-big-notification">x</a>
+                <p>Your comment for not accepting delivery noted!</p>
+            </div>
+            <div class="big-notification green-notification" id="accepted">
+                <h4 class="uppercase">Delivery Accepted</h4>
+                <a href="#" class="close-big-notification">x</a>
+                <p>Thank you for accepting your Delivery <span id="delno"></span>!</p>
+            </div>
+
+        <div>
+            <p>Please rate this service?
+            <p>Excellent<input type="radio" name="rate" value="5" />
+            <p>Very Good<input type="radio" name="rate" value="4" />
+            <p>Good<input type="radio" name="rate" value="3" />
+            <p>Satisfactory<input type="radio" name="rate" value="2" />
+            <p>Poor<input type="radio" name="rate" value="1" />
+
+            <center><a href="#" class="button button-green verify-delivery" id="accept"><span class="fa fa-star-o"></span>&nbsp;Rate</a></center>
+
+        </div>
+    </div>
+    <div class="footer-section">
+        <p class="footer-text" style="color:#000; font-weight: bold;">
+            Copyright Serve Consulting Ltd 2016.<br>
+            All rights reserved.
+        </p>
+    </div>
+</div>
+
+</body>
+
+<!-- Mirrored from enableds.com/products/sandglass/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Mar 2016 10:20:49 GMT -->
+</html>
+
+
